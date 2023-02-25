@@ -1,7 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import requests
 
+url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
+params ={'serviceKey' : 'R9OqjtnNjI2awsYHT1GLVz17FBFX3yBAPtk6t/zh+hhYMFnP376kP7j5iQRFaSfuS3/oWQR2Zq9TrOs5ChJIhA==',
+         'returnType' : 'xml', 'numOfRows' : '100', 'pageNo' : '1', 'sidoName' : '서울', 'ver' : '1.0' }
+
+response = requests.get(url, params=params)
+print(response.content)
 
 st.title('데이터프레임 튜토리얼 연습')
 
