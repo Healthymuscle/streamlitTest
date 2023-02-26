@@ -1,7 +1,35 @@
 import streamlit as st
+from flask import Flask
+import sys
+
+application = Flask(__name__)
+
+
+@application.route("/")
+def hello():
+    return "Hello goorm!"
+
+st.title(hello())
+
+
+# if __name__ == "__main__":
+#     application.run(host='192.168.123.101', port=8501)
+
+city = st.selectbox(
+    '당신의 MBTI는 무엇입니까?',
+    ('ISTJ', 'ENFP', '선택지 없음'), 
+    index=2
+)
+
+if mbti == 'ISTJ':
+    st.write('당신은 :blue[현실주의자] 이시네요')
+elif mbti == 'ENFP':
+    st.write('당신은 :green[활동가] 이시네요')
+else:
+    st.write("당신에 대해 :red[알고 싶어요]:grey_exclamation:")    
 
 # 타이틀 적용 예시
-st.title('이것은 타이틀 입니다')
+st.title('여기서 머무잘 ')
 
 # 특수 이모티콘 삽입 예시
 # emoji: https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
