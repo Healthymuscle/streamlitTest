@@ -4,22 +4,26 @@ import numpy as np
 import requests
 import xmltodict, json
 
-# city = st.radio(
-#     '도시를 고르세요',
-#     ('서울', '부산', '선택지 없음'), 
-#     index=2
-# )
+city = st.radio(
+    '도시를 고르세요',
+    ('서울', '부산', '대구', '인천')
+    
+)
 
-# if city == '서울':
-#     st.write("서울을 선택했습니다.")
-# elif city == '부산':
-#     st.write("부산을 선택했습니다." )
-# else:
-#     st.write("도시를  :red[고르세요]:grey_exclamation:")
+if city == '서울':
+    st.write("서울을 선택했습니다.")
+elif city == '부산':
+    st.write("부산을 선택했습니다." )
+elif city == '대구':
+    st.write("대구를 선택했습니다." )
+elif city == '인천':
+    st.write("인천을 선택했습니다." )
+else:
+    st.write("도시를  :red[고르세요]:grey_exclamation:")
 
 url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"
 params ={'serviceKey' : 'R9OqjtnNjI2awsYHT1GLVz17FBFX3yBAPtk6t/zh+hhYMFnP376kP7j5iQRFaSfuS3/oWQR2Zq9TrOs5ChJIhA==',
-         'returnType' : 'xml', 'numOfRows' : '100', 'pageNo' : '1', 'sidoName' : '서울' , 'ver' : '1.0' }
+         'returnType' : 'xml', 'numOfRows' : '100', 'pageNo' : '1', 'sidoName' : city , 'ver' : '1.0' }
 
 response = requests.get(url, params=params)
 dict_data = xmltodict.parse(response.content)
@@ -39,26 +43,31 @@ raw_data = {'측정소명': station_list, 'o3_value':o3Value_list}
 df = pd.DataFrame(raw_data, columns = ['측정소명', 'o3_value'])
 #
 
-st.title('서울 오존농도 실시간')
+st.title('MPK 오존농도 실시간 :sunglasses:')
 
 # DataFrame 생성
 # dataframe = pd.DataFrame({
-#     '측정소 ': [1, 2, 3, 4],
-#     '오존레벨': [10, 20, 30, 40],
+#     '측정소 ': station_list,
+#     '오존레벨': o3Value_list,
 # })
 
 # DataFrame
 # use_container_width 기능은 데이터프레임을 컨테이너 크기에 확장할 때 사용합니다. (True/False)
-# st.dataframe(dataframe, use_container_width=False)
+st.dataframe(df, use_container_width=True, height=1500)
 
 
 # 테이블(static)
 # DataFrame과는 다르게 interactive 한 UI 를 제공하지 않습니다.
-st.table(df)
+# st.table(df)
+# print(station_list)
+
+# 메트릭
+# for j in station_list :
+#     st.metric(label = station_list, value = o3Value_list, delta="1.2°C")
+#     print(station_list)
 
 
-# # 메트릭
-# st.metric(label="온도", value="10°C", delta="1.2°C")
+
 # st.metric(label="삼성전자", value="61,000 원", delta="-1,200 원")
 
 # 컬럼으로 영역을 나누어 표기한 경우
